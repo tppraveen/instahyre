@@ -1,0 +1,11 @@
+
+.firstWord {
+  font-family: 'Open Sans', sans-serif; font-weight: 300
+}
+.secondWord {
+  font-family: 'Open Sans', sans-serif; font-weight: 400
+}
+ .x{border: 1px solid red;}
+ .card {
+  width: 300px;
+} 

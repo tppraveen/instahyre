@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AngularJS Praveen</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link data-require="bootstrap@*" data-semver="3.3.2" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
+  <script>
+    document.write('<base href="' + document.location + '" />');
+  </script>
+  <link rel="stylesheet" href="style.css" />
+  <script data-require="angular.js@1.4.x" src="https://code.angularjs.org/1.4.0-rc.2/angular.js" data-semver="1.4.0-rc.2"></script>
+  <script data-require="jquery@2.1.3" data-semver="2.1.3" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="app.js"></script>
+  <script src="MainCtrl.js"></script>
+  <script src="myCtrl.js"></script>
+</head>
+<body  onmousedown="rc(event)">
+<div ng-controller="formCtrl">
+<!-- login -->
+<div id="op" style="  display: block;
+  margin-left: auto;
+  margin-right: auto;width: 900px">
+    <div class="col-md-4 col-sm-2 col-xs-3"></div>
+    <div class="col-md-4 col-sm-8 col-xs-6">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="form-group">
+            <label>User Name </label>
+            <div class="icon-holder">
+              <input type="text" class="form-control" ng-model="myname"/>
+              <i class="fa fa-user icon" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <div class="icon-holder">
+              <input type="password" class="form-control"  ng-model="lname"/>
+              <i class="fa fa-lock icon" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <button class="btn btn-primary btn-block" ng-click="reset()">Login </button><button class="btn btn-primary btn-block">Register</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-2 col-xs-3"></div><br><br>
+    <table class="table table-borderless">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Praveen</td>
+        <td>123456</td>
+      </tr>
+      <tr>
+        <td>Pavithra</td>
+        <td>54321</td>
+      </tr>
+      <tr>
+        <td>Sandeep</td>
+        <td>24680</td>
+      </tr>
+      <tr>
+        <td>Prakash</td>
+        <td>124578</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- end login -->
+<div style="padding: 15px;" id="pp">
+    <a id="cp" class="btn btn-primary">Transcation</a>
+    <a id="tp" class="btn btn-primary">Capital</a>
+  <a style="text-align:center;"><b>Hello {{myname}}</b></a>
+    <a  style="float: right;" class="logout" >Logout</a>
+</div>
+</div>
+<main id="ppp">
+  <div ng-controller="MainCtrl" class="container tr x text-center">
+    <div class="row x h-75 bordered">
+      <div class="col-sm-4 x h-100" style="border-bottom: none;">        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Transaction</h3>
+          </div>
+          <div class="panel-body">
+            <form >
+            <p>
+              <label for="description" style="float: left;">Name:</label><br>
+              <input type="text" class="form-control" id="description" placeholder="" ng-model='transaction.description'>
+            </p>
+            <p>
+              <label for="amt" style="float: left;">Amount:</label><br>
+                  <input type="number" min=0 class="form-control" id="amount" placeholder="000" ng-model="transaction.amount">
+            </p>
+            <p>
+              <label for="amt" style="float: left;">Type:</label><br>
+              <select class="form-control" ng-model="transaction.type">
+                <option value='debit'>Debit</option>
+                <option value='credit'>Credit</option>
+              </select>
+            </p>
+            <button type="submit" class="btn btn-primary btn-block" ng-click="saveTransaction()">Save</button><br><br>
+          </form><p>
+          <strong>Sort Transactions by:</strong>
+          <select ng-model="transType" class="form-control">
+            <option value=''>All</option>
+            <option value='credit'>Credit</option>
+            <option value='debit'>Debit</option>
+          </select>
+        </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8  h-100 " style="height: 100%;overflow: hidden;border-bottom: none;">
+          <table class="table table-condensed " style="overflow: scroll;">    
+            <tr>
+              <th>Name</th>
+              <th>Amount</th>
+              <th>Type</th>
+            </tr> 
+            <tr ng-repeat="row in transactionList | filter: transType">
+              <td ng-bind="row.description"></td>
+              <td ng-bind="row.amount | currency"></td>
+              <td ng-bind="row.type"></td>
+            </tr>
+        </table><br><br>
+          <b><p  class="alert alert-default" ng-bind-template="Balance: {{account.runningBalance | currency}}" moneywarn="account.runningBalance" data-startbalance="{{account.startingBalace}}" style="position: absolute;bottom:2px;right: 5px;"></p></b>
+      </div>
+    </div>
+  </div>
+<div ng-controller="myCtrl" class="container x cp text-center">
+    <div class="row x h-75 bordered">
+      <div class="col-sm-4 x h-100" style="border-bottom: none;">        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Capital</h3>
+          </div>
+          <div class="panel-body">
+            <form class="">
+            <p>
+              <label for="amt" style="float: left;">Name:</label><br>
+              <input class="form-control" ng-model="transaction.type" value='debit'>
+              </input>
+            </p>
+            <p>
+              <label for="description" style="float: left;">document:</label><br>
+              <input type="file" class="form-control" id="description" placeholder="" ng-model='transaction.description'>
+            </p>
+            <p>
+              <label for="amt" style="float: left;">Amount:</label><br>
+                  <input type="number" min=0 class="form-control" id="amount" placeholder="000" ng-model="transaction.amount">
+            </p>
+            <button type="submit" class="btn btn-primary btn-block" ng-click="saveTransaction()">Submit</button><br><br>
+          </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8  h-100 " style="height: 100%;overflow: hidden;border-bottom: none;">
+          <table class="table table-condensed " style="overflow: scroll;">    
+            <tr>
+              <th>Name</th>
+              <th>Amount</th>
+              <th>Document</th>
+            </tr> 
+            <tr ng-repeat="row in transactionList | filter: transType">
+              <td ng-bind="row.type"></td>
+              <td ng-bind="row.amount | currency"></td>
+              <td ng-bind="row.description"></td>
+            </tr>
+        </table><br><br>
+          <b><p  class="alert alert-default" ng-bind-template="Count: {{account.runningBalance}}" moneywarn="account.runningBalance" data-startbalance="{{account.startingBalace}}" style="position: absolute;bottom:2px;right: 5px;"></p></b>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $(".logout").click(function(){
+    $("#pp").hide();
+    $("#ppp").hide();
+    $("#op").show();
+  });
+    $(".cp").hide();
+  $("#tp").click(function(){
+    $(".tr").hide();
+    $(".cp").show();
+  });
+  $("#cp").click(function(){
+    $(".tr").show();
+    $(".cp").hide();
+  });
+});
+</script>
+<script>
+document.getElementById('pp').style.display = 'none';
+document.getElementById('ppp').style.display = 'none';
+app.controller('formCtrl', function($scope) {
+    $scope.reset = function() {
+
+  var str = $scope.myname;
+  var st = $scope.lname;
+  var n = str.includes("p");
+  var h = st.includes("2");
+    if(n&&h){    
+      document.getElementById('pp').style.display = 'block'
+      document.getElementById('ppp').style.display = 'block'
+document.getElementById('op').style.display = 'none'            
+              }
+        $scope.user = angular.copy($scope.master);
+    };
+});
+</script>
+<script type="text/javascript">
+     function rc(event) {
+      if(event.button==2)
+        alert("Right click disenabled");
+    }
+  </script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    document.onkeydown = function(e) {
+            if (e.ctrlKey && 
+                (e.keyCode === 67 || 
+                 e.keyCode === 86 || 
+                 e.keyCode === 85 || 
+                 e.keyCode === 117)) {
+                return false;
+            } else {
+                return true;
+            }
+    };
+    $(document).keypress("u",function(e) {
+      if(e.ctrlKey)
+      {
+    return false;
+    }
+    else
+    {
+    return true;
+    }
+    });
+</script>
+</body>
+</html>
